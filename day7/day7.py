@@ -17,6 +17,10 @@ and then connect its output to wire `z`.
 
 """
 import operator
+import re
+
+OPERATOR_PATTERN = r'[A-Z]+'
+ARG_PATTERN = r'[a-z0-9]+'
 
 OP = {
     'IDENTITY': lambda x: x,
@@ -46,24 +50,21 @@ def parse_line(line):
     Examples:
       `123 -> x` means that the signal `123` is provided to wire `x`.
       >>> parse_line('123 -> x')
-      (OP['IDENTITY'], ('123',), 'x')
+      (OP['IDENTITY'], ['123'], 'x')
 
       `x AND y -> z` means that the bitwise `AND` of wire `x` and wire `y`
         is provided to wire `z`.
       >>> parse_line('x AND y -> z')
-      (OP['AND'], ('x', 'y'), 'z')
+      (OP['AND'], ['x', 'y'], 'z')
 
     """
-    *operations, _, destination = line.strip().split()
-    # simple assignment
-    if len(operations) == 1:
-        return OP['IDENTITY'], (operations[0],), destination
-    # NOT operation
-    elif len(operations) == 2:
-        return OP['NOT'], (operations[1],), destination
-    # binary opration
-    else:
-        return OP[operations[1]], (operations[0], operations[2]), destination
+    operations, destination = line.strip().split(' -> ')
+
+    op_match = re.search(OPERATOR_PATTERN, operations)
+    operator = op_match.group() if op_match else 'IDENTITY'
+    args = re.findall(ARG_PATTERN, operations)
+
+    return OP[operator], args, destination
 
 
 def emulate_circuit(instructions, names):
