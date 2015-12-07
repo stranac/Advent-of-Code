@@ -60,7 +60,6 @@ def modify_grid(grid, line, commands):
       commands (dict): Mapping of commands to modification functions.
 
     """
-
     command, x1, y1, x2, y2 = re.match(DATA_PATTERN, line).groups()
     modify = commands[command]
 
