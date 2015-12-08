@@ -9,15 +9,6 @@ It is important to realize the difference between the number of characters
 in the code representation of the string literal and the number of characters
 in the in-memory string itself.
 
-Examples:
-  `""` is 2 characters of code, but the string contains zero characters.
-  `"abc"` is 5 characters of code, but 3 characters in the string data.
-  `"aaa\"aaa"` is 10 characters of code, but the string itself contains
-    six "a" characters and a single, escaped quote character,
-    for a total of 7 characters in the string data.
-  `"\x27"` is 6 characters of code, but the string itself contains just one,
-    an apostrophe ('), escaped using hexadecimal notation.
-
 Santa's list is a file that contains many double-quoted string literals,
 one on each line. The only escape sequences used are
   `\\` (which represents asingle backslash),
@@ -37,6 +28,16 @@ def unescaped_len(s):
     Returns:
       int: The in-memory lenght of the string
 
+    Examples:
+      >>> unescaped_len(r'""')  # ''
+      0
+      >>> unescaped_len(r'"abc"')  # 'abc'
+      3
+      >>> unescaped_len(r'"aaa\"aaa"')  # 'aaa"aaa'
+      7
+      >>> unescaped_len(r'"\x27"')  # "'"
+      1
+
     """
     # subtracting two for the enclosing quotes
     return len(s.encode('utf-8').decode('unicode_escape')) - 2
@@ -52,6 +53,16 @@ def escaped_len(s):
 
     Returns:
       int: The lenght of the escaped string
+
+    Examples:
+      >>> escaped_len(r"")  # r'""'
+      2
+      >>> escaped_len(r"abc")  # r'"abc"'
+      5
+      >>> escaped_len(r"aaa\"aaa")  # r'"aaa\\\"aaa"'
+      12
+      >>> escaped_len(r"\x27")  # r'"\\x27"'
+      7
 
     """
     # adding two for the enclosing quotes
