@@ -33,7 +33,7 @@ OP = {
 
 
 def parse_line(line):
-    """Parse an instruction into a tuple of (function, args, destination).
+    """Parse an instruction into a tuple of (operator, args, destination).
 
     Args:
       line (string): An instruction in format '<operations> -> destination'
@@ -43,28 +43,28 @@ def parse_line(line):
           'value1 <BINARY_OPERATOR> value2' (AND | OR | LSHIFT | RSHIFT)
 
     Returns:
-      tuple: (function, args, destination). Interpreted as::
+      tuple: (operator, args, destination). Interpreted as::
 
-          destination = function(*args)
+          destination = OP[operator](*args)
 
     Examples:
       `123 -> x` means that the signal `123` is provided to wire `x`.
       >>> parse_line('123 -> x')
-      (OP['IDENTITY'], ['123'], 'x')
+      ('IDENTITY', ['123'], 'x')
 
       `x AND y -> z` means that the bitwise `AND` of wire `x` and wire `y`
         is provided to wire `z`.
       >>> parse_line('x AND y -> z')
-      (OP['AND'], ['x', 'y'], 'z')
+      ('AND', ['x', 'y'], 'z')
 
     """
     operations, destination = line.strip().split(' -> ')
 
     op_match = re.search(OPERATOR_PATTERN, operations)
-    operator = op_match.group() if op_match else 'IDENTITY'
+    op = op_match.group() if op_match else 'IDENTITY'
     args = re.findall(ARG_PATTERN, operations)
 
-    return OP[operator], args, destination
+    return op, args, destination
 
 
 def emulate_circuit(instructions, names):
@@ -85,7 +85,7 @@ def emulate_circuit(instructions, names):
             args = [value(arg, names) for arg in args]
             # can only calculate if all the arg values are known
             if None not in args:
-                names[dest] = op(*args)
+                names[dest] = OP[op](*args)
     return names['a']
 
 
