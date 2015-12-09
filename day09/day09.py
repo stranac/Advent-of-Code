@@ -8,22 +8,6 @@ him the distances between every pair of locations. He can start and end at any
 two (different) locations he wants, but he must visit each location exactly
 once. What is the shortest distance he can travel to achieve this?
 
-Examples:
-  London to Dublin = 464
-  London to Belfast = 518
-  Dublin to Belfast = 141
-
-  The possible routes are therefore:
-
-  Dublin -> London -> Belfast = 982
-  London -> Dublin -> Belfast = 605
-  London -> Belfast -> Dublin = 659
-  Dublin -> Belfast -> London = 659
-  Belfast -> Dublin -> London = 605
-  Belfast -> London -> Dublin = 982
-
-  The shortest of these is London -> Dublin -> Belfast = 605
-
 Part 2 - What is the distance of the longest route?
 
 """
@@ -40,6 +24,34 @@ def path(towns, distances):
 
     Returns:
       int: The total distance
+
+    Examples:
+    >>> distances = {
+        'London': {
+            'Dublin': 464,
+            'Belfast': 518,
+        },
+        'Dublin': {
+            'London': 464,
+            'Belfast': 141,
+        },
+        'Belfast': {
+            'London': 518,
+            'Dublin': 141,
+        },
+    }
+    >>> path('Dublin', 'London', 'Belfast')
+    982
+    >>> path('London', 'Dublin', 'Belfast')
+    605
+    >>> path('London', 'Belfast', 'Dublin')
+    659
+    >>> path('Dublin', 'Belfast', 'London')
+    659
+    >>> path('Belfast', 'Dublin', 'London')
+    605
+    >>> path('Belfast', 'London', 'Dublin')
+    982
 
     """
     distance = 0
