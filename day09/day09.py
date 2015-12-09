@@ -24,10 +24,11 @@ Examples:
 
   The shortest of these is London -> Dublin -> Belfast = 605
 
+Part 2 - What is the distance of the longest route?
 
 """
 from collections import defaultdict
-import itertools
+from itertools import permutations
 
 
 def path(towns, distances):
@@ -35,7 +36,7 @@ def path(towns, distances):
 
     Args:
       towns (tuple): Towns we're going through.
-      distances (dict of dict): Mapping the distance between each two cities
+      distances (dict of dict): Mapping the distance between each two cities.
 
     Returns:
       int: The total distance
@@ -51,13 +52,15 @@ def main():
     distances = defaultdict(dict)
     with open('input') as f:
         for line in f:
-            towns, distance = line.split(' = ')
-            town1, town2 = towns.split(' to ')
+            pair, distance = line.split(' = ')
+            town1, town2 = pair.split(' to ')
             distances[town1][town2] = int(distance)
             distances[town2][town1] = int(distance)
 
-    print(min(path(towns, distances) for towns in itertools.permutations(distances)))
-    print(max(path(towns, distances) for towns in itertools.permutations(distances)))
+    all_paths = [path(towns, distances) for towns in permutations(distances)]
+
+    print(min(all_paths))
+    print(max(all_paths))
 
 if __name__ == '__main__':
     main()
