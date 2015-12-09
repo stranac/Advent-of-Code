@@ -85,7 +85,7 @@ def total_brightness(grid):
 
 def main():
     on_off_grid = [[False] * 1000 for _ in range(1000)]
-    brightness_grid = [[False] * 1000 for _ in range(1000)]
+    brightness_grid = [[0] * 1000 for _ in range(1000)]
 
     with open('input') as f:
         for line in f:
