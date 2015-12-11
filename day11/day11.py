@@ -38,18 +38,22 @@ def create_next_letters():
     return mapping
 
 
-def create_streaks():
-    """Generate lenght 3 streaks of consecutive letters.
+def substrings(s, lenght=1):
+    """Generate all `lenght` long substrings of `s`.
+
+    Args:
+      s (str)
+      lenght (int)
 
     Yields:
-      str: Lenght 3 streaks of consecutive letters.
+      str: Substrings of s.
 
     """
-    triples = zip(ascii_lowercase, ascii_lowercase[1:], ascii_lowercase[2:])
-    return [''.join(t) for t in triples]
+    for i in range(len(s) - lenght):
+        yield s[i:i + lenght]
 
 
-def valid(password, streaks):
+def valid(password):
     """Check if a given password is valid.
 
     Passwords must include one increasing straight of at least three letters,
@@ -65,7 +69,6 @@ def valid(password, streaks):
 
     Args:
       password (str): The password.
-      streaks (list of str): Streaks of consecutive letters.
 
     Returns:
       bool: True if password is valid, False if it is not.
@@ -83,10 +86,9 @@ def valid(password, streaks):
       True
 
     """
-    return (
-        any(streak in password for streak in streaks) and
-        re.search(TWO_PAIR_RE, password)
-    )
+    if not re.search(TWO_PAIR_RE, password):
+        return False
+    return any(s in ascii_lowercase for s in substrings(password, 3))
 
 
 def next_string(s, next_letters):
@@ -121,13 +123,12 @@ def next_string(s, next_letters):
         return s[:-1] + next_letters[s[-1]]
 
 
-def next_valid_password(password, next_letters, streaks):
+def next_valid_password(password, next_letters):
     """Generate the next valid password. For rules, check `:func:valid`.
 
     Args:
       password (str): Current password.
       next_letters (dict): Mapping of each letter to the next one.
-      streaks (list of str): Streaks of consecutive letters.
 
     Returns:
       str: Next valid password.
@@ -135,18 +136,16 @@ def next_valid_password(password, next_letters, streaks):
     """
     while True:
         password = next_string(password, next_letters)
-        if valid(password, streaks):
+        if valid(password):
             return password
 
 
 def main():
-    next_letters = create_next_letters()
-    streaks = create_streaks()
-
     password = 'hxbxwxba'
+    next_letters = create_next_letters()
 
     for _ in range(2):
-        password = next_valid_password(password, next_letters, streaks)
+        password = next_valid_password(password, next_letters)
         print(password)
 
 
