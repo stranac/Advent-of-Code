@@ -45,7 +45,9 @@ def look_and_say(s):
 
 
 def main():
-    sequence = '1113122113'
+    import sys
+
+    sequence = sys.argv[1]
 
     for _ in range(40):
         sequence = look_and_say(sequence)

@@ -75,7 +75,9 @@ def n_nice(strings, is_nice):
 
 
 def main():
-    with open('input') as f:
+    import sys
+
+    with open(sys.argv[1]) as f:
         strings = f.read().splitlines()
 
     print(n_nice(strings, is_nice_part_one))

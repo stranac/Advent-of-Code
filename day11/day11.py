@@ -146,7 +146,9 @@ def next_valid_password(password, next_letters):
 
 
 def main():
-    password = 'hxbxwxba'
+    import sys
+
+    password = sys.argv[1]
     next_letters = create_next_letters()
 
     for _ in range(2):

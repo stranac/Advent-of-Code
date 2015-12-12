@@ -70,9 +70,11 @@ def escaped_len(s):
 
 
 def main():
+    import sys
+
     difference1 = difference2 = 0
 
-    with open('input') as f:
+    with open(sys.argv[1]) as f:
         for line in f:
             difference1 += len(line) - unescaped_len(line)
             difference2 += escaped_len(line) - len(line)

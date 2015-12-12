@@ -65,7 +65,9 @@ def enters_basement(instructions):
 
 
 def main():
-    with open('input') as f:
+    import sys
+
+    with open(sys.argv[1]) as f:
         instructions = f.read()
 
     print(final_floor(instructions))

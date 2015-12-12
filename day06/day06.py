@@ -84,10 +84,12 @@ def total_brightness(grid):
 
 
 def main():
+    import sys
+
     on_off_grid = [[False] * 1000 for _ in range(1000)]
     brightness_grid = [[0] * 1000 for _ in range(1000)]
 
-    with open('input') as f:
+    with open(sys.argv[1]) as f:
         for line in f:
             modify_grid(on_off_grid, line, on_off_commands)
             modify_grid(brightness_grid, line, brightness_commands)

@@ -61,8 +61,11 @@ def path(towns, distances):
 
 
 def main():
+    import sys
+
     distances = defaultdict(dict)
-    with open('input') as f:
+
+    with open(sys.argv[1]) as f:
         for line in f:
             pair, distance = line.split(' = ')
             town1, town2 = pair.split(' to ')

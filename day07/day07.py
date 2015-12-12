@@ -116,7 +116,9 @@ def value(arg, names):
 
 
 def main():
-    with open('input') as f:
+    import sys
+
+    with open(sys.argv[1]) as f:
         instructions = [parse_line(line) for line in f]
 
     answer1 = emulate_circuit(instructions, {})

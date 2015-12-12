@@ -77,7 +77,9 @@ def n_visited(*args):
 
 
 def main():
-    with open('input') as f:
+    import sys
+
+    with open(sys.argv[1]) as f:
         instructions = f.read()
 
     # all the moves are Santa's

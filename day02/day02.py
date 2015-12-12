@@ -63,10 +63,12 @@ def perimeter(dimensions):
 
 
 def main():
+    import sys
+
     paper_needed = 0
     ribbon_needed = 0
 
-    with open('input') as f:
+    with open(sys.argv[1]) as f:
         for line in f:
             # sort the sides so it's easy to get the two smallest
             sides = sorted(map(int, line.split('x')))

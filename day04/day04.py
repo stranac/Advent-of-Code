@@ -49,10 +49,14 @@ def bruteforce(key, prefix, start=1):
 
 
 def main():
-    answer = bruteforce(KEY, '00000')
+    import sys
+
+    key = sys.argv[1]
+
+    answer = bruteforce(key, '00000')
     print(answer)
 
-    answer = bruteforce(KEY, '000000', answer)
+    answer = bruteforce(key, '000000', answer)
     print(answer)
 
 

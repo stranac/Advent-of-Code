@@ -46,7 +46,9 @@ def all_nums(data, ignore_reds=False):
 
 
 def main():
-    with open('input') as f:
+    import sys
+
+    with open(sys.argv[1]) as f:
         data = json.load(f)
 
     print(sum(all_nums(data)))
