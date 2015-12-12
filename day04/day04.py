@@ -28,15 +28,32 @@ import itertools
 KEY = 'bgvyzdsv'
 
 
-def main():
-    for i in itertools.count():
-        code = '{}{}'.format(KEY, i)
+def bruteforce(key, prefix, start=1):
+    """Find the first number starting from `start` which generates a hash
+    that starts with `prefix`.
+
+    Args:
+      key (str): Key used for hash generation.
+      prefix (str): Target prefix.
+      start (int): Starting number.
+
+    Returns:
+      int: Lowest number generating a fitting hash.
+
+    """
+    for i in itertools.count(start):
+        code = '{}{}'.format(key, i)
         hashed = hashlib.md5(code.encode('ascii')).hexdigest()
-        if hashed.startswith('0' * 5):
-            print(i)
-        if hashed.startswith('0' * 6):
-            print(i)
-            break
+        if hashed.startswith(prefix):
+            return i
+
+
+def main():
+    answer = bruteforce(KEY, '00000')
+    print(answer)
+
+    answer = bruteforce(KEY, '000000', answer)
+    print(answer)
 
 
 if __name__ == '__main__':

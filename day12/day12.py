@@ -28,15 +28,15 @@ def all_nums(data, ignore_reds=False):
       ignore_reds (bool)
 
     Yields:
-      All integer values inside `data`.
+      int: Integer values inside `data`.
 
     """
     if isinstance(data, int):
         yield data
 
     elif isinstance(data, list):
-        for x in data:
-            yield from all_nums(x, ignore_reds)
+        for value in data:
+            yield from all_nums(value, ignore_reds)
 
     elif isinstance(data, dict):
         if ignore_reds and 'red' in data.values():
