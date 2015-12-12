@@ -114,50 +114,18 @@ def next_string(s, next_letters):
     'xza'
 
     """
-    s = min_candidate(s, next_letters)
+    # get first string without invalid letters
+    # increase first invalid letter and reset everything after to 'a's
+    s = re.sub(
+        r'([iol])(\w*)',
+        lambda m: next_letters[m.group(1)] + 'a' * len(m.group(2)),
+        s
+    )
 
     if s[-1] == 'z':
         return next_string(s[:-1], next_letters) + 'a'
     else:
         return s[:-1] + next_letters[s[-1]]
-
-
-def min_candidate(s, next_letters):
-    """Find first string starting from `s` that contains no invalid letters.
-
-    We get this string by increasing the first invalid string and
-    replacing all the following letters by 'a's.
-
-    Args:
-      s (str): Starting string.
-      next_letters (dict): Mapping of each letter to the next one.
-
-    Returns:
-      str: First potentially valid string.
-
-    """
-    i = first_index(s, search_for='ilo')
-    if i > 0:
-        remaining = len(s) - i
-        s = s[:i] + next_letters[s[i]] + 'a' * remaining
-    return s
-
-
-def first_index(s, search_for):
-    """Find the first index of any element of `search_for` in `s`.
-
-    Args:
-      s (str): String in which we search.
-      search_for (collection): Elements we are looking for.
-
-    Returns:
-      int: First index, or -1 if not found.
-
-    """
-    for i, c in enumerate(s):
-        if c in search_for:
-            return i
-    return -1
 
 
 def next_valid_password(password, next_letters):
