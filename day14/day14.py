@@ -25,7 +25,6 @@ class Reindeer:
         self.travels = travels
         self.cycle_duration = travels + rests
 
-        self.second = 0
         self.score = 0
         self.traveled = 0
 
@@ -43,23 +42,27 @@ class Reindeer:
         data = [int(number) for number in re.findall(r'\d+', line)]
         return cls(*data)
 
-    @property
-    def flying(self):
+    def flying(self, time):
         """Determine if the reindeer is flying.
+
+        Args:
+          time (int): Current race duration in seconds.
 
         Returns:
           bool: True if the reindeer is flying, False otherwise
 
         """
-        return (self.second % self.cycle_duration) < self.travels
+        return (time % self.cycle_duration) < self.travels
 
-    def move(self):
+    def move(self, time):
         """Move the reindeer if it is flying.
 
+        Args:
+          time (int): Current race duration in seconds.
+
         """
-        if self.flying:
+        if self.flying(time):
             self.traveled += self.speed
-        self.second += 1
 
 
 def distance_traveled(speed, travels, rests, total_time):
@@ -106,9 +109,9 @@ def main():
     with open(sys.argv[1]) as f:
         herd = [Reindeer.from_string(line) for line in f]
 
-    for _ in range(int(sys.argv[2])):
+    for time in range(int(sys.argv[2])):
         for deer in herd:
-            deer.move()
+            deer.move(time)
         for leader in leaders(herd):
             leader.score += 1
 
